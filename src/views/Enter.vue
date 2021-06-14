@@ -13,7 +13,7 @@
         <v-col cols="12">
           <v-row justify="center" align="center">
             <v-col cols="auto">
-              <v-card class="rounded-pill white py-3 px-4" :to="{name:'Enter'}">
+              <v-card class="rounded-pill white py-3 px-4" :to="{name:'SignUp'}">
                 Sign up
               </v-card>
             </v-col>

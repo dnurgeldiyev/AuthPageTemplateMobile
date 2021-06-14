@@ -1,21 +1,27 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Enter from '../views/Enter.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Enter from "../views/Enter.vue";
+import SignUp from "../views/SignUp.vue";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'Enter',
+    path: "/",
+    name: "Enter",
     component: Enter
+  },
+  {
+    path: "/sign-up",
+    name: "SignUp",
+    component: SignUp
   }
-]
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
   routes
-})
+});
 
-export default router
+export default router;
