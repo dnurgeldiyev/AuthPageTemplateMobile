@@ -4,7 +4,7 @@
       <v-col cols="12" lg="3" md="4" sm="8">
         <v-row justify="center" class="pb-2" style="font-size: 1.7rem;">
           <v-col cols="auto" class="font-weight-bold">
-            Sign Up
+            Sign In
           </v-col>
         </v-row>
 
@@ -12,26 +12,7 @@
           <v-form ref="form" lazy-validation>
             <v-container>
               <v-row>
-                <v-col cols="12" class="pb-0">
-                  <v-row justify="space-between" class="px-4 form-titel">
-                    <v-col cols="auto">
-                      Fullname
-                    </v-col>
-                  </v-row>
-
-                  <v-text-field
-                    :rules="isValid ? [rules.required] : []"
-                    v-model="fullname"
-                    outlined
-                    rounded
-                    flat
-                    dense
-                    :background-color="
-                      fullname === '' && isValid ? 'rgba(255,102,131,0.38)' : '#F3F3FA'
-                    "
-                  />
-                </v-col>
-                <v-col cols="12" class="py-0">
+                <v-col cols="12" class="py-0 mt-2">
                   <v-row justify="space-between" class="px-4 form-titel">
                     <v-col cols="auto">
                       Email
@@ -85,46 +66,16 @@
                     @click:append="passwordShow = !passwordShow"
                   />
                 </v-col>
-                <v-col cols="12" class="py-0">
-                  <v-row justify="space-between" class="px-4 form-titel">
-                    <v-col cols="auto">
-                      Repeat Password
-                    </v-col>
-                  </v-row>
-
-                  <v-text-field
-                    :append-icon="
-                      repeatPasswordShow ? 'mdi-eye-off' : 'mdi-eye'
-                    "
-                    :type="repeatPasswordShow ? 'text' : 'password'"
-                    :rules="isValid ? [rules.required, rules.repeatPassword] : []"
-                    v-model="repeatPassword"
-                    :disabled="password === ''"
-                    outlined
-                    rounded
-                    flat
-                    dense
-                    :background-color="
-                      passwordError ? 'rgba(255,102,131,0.38)' : '#F3F3FA'
-                    "
-                    @click:append="repeatPasswordShow = !repeatPasswordShow"
-                  />
-                </v-col>
                 <v-col cols="12" class="pt-0">
                   <v-btn
                     width="100%"
                     autocapitalize="false"
                     rounded
                     dark
-                    @click="
-                      () => {
-                        this.isValid = true;
-                        this.$refs.form.validate();
-                      }
-                    "
+                    @click="userSignIn"
                     color="#1E1A3E"
                   >
-                    Sign Up
+                    Sign In
                   </v-btn>
                 </v-col>
               </v-row>
@@ -133,10 +84,12 @@
         </v-card>
         <v-row justify="center" class="pt-2" style="font-size: 0.9rem;">
           <v-col cols="12" align="center">
-            Already have an account?
+            Don’t have an account yet?
           </v-col>
           <v-col cols="12" align="center">
-            <router-link :to="{name: 'SignIn'}" class="styleLink">Sign In</router-link>
+            <router-link :to="{ name: 'SignUp' }" class="styleLink"
+              >Sign Up</router-link
+            >
           </v-col>
         </v-row>
       </v-col>
@@ -146,22 +99,18 @@
 
 <script>
 export default {
-  name: "SignUp",
+  name: "SignIn",
   data() {
     return {
-      fullname: "",
       password: "",
-      repeatPassword: "",
       email: "",
 
       isValid: false,
 
-      fullnameError: false,
       passwordError: false,
       emailError: false,
 
       passwordShow: false,
-      repeatPasswordShow: false,
       toolShow: false,
 
       rules: {
@@ -176,9 +125,6 @@ export default {
           this.passwordError = false;
           return true;
         },
-        repeatPassword: v => {
-          return this.password === v || "The password does not match";
-        },
         email: v => {
           this.emailError = true;
           if (v.search("^.{3,}@.{4,}\\..{2,}$") < 0) return "Enter valid email";
@@ -188,9 +134,23 @@ export default {
       }
     };
   },
-  watch: {
-    password: function() {
-      this.repeatPassword = "";
+  methods: {
+    async userSignIn() {
+
+      if (!this.isValid) {
+        this.isValid = true;
+        await this.$nextTick(() => {});
+      }
+
+      if (this.$refs.form.validate() === false) {
+        this.$toast.show({
+          message: "Wrong email or password",
+          status: "error"
+        });
+        return;
+      }
+
+      // this.$router.push({});
     }
   }
 };
@@ -203,8 +163,7 @@ export default {
 .v-text-field--outlined >>> fieldset {
   border: none;
 }
-.styleLink{
+.styleLink {
   color: black;
 }
-
 </style>
