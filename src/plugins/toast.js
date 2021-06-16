@@ -1,10 +1,13 @@
 import { toastEventBus } from "../event.bus";
 
-export default (Vue) => {
+export default Vue => {
   const toast = {
     show(args) {
       toastEventBus.$emit("show", args);
     },
+    close() {
+      toastEventBus.$emit("close");
+    }
   };
   let timer = null;
   Vue.$toast = toast;
@@ -14,7 +17,7 @@ export default (Vue) => {
       return {
         isShown: false,
         message: "",
-        status: "",
+        status: ""
       };
     },
 
@@ -32,7 +35,7 @@ export default (Vue) => {
           default:
             return "";
         }
-      },
+      }
     },
 
     methods: {
@@ -51,14 +54,20 @@ export default (Vue) => {
           timer = null;
         }, duration);
       },
+      close() {
+        console.log("toast close");
+        this.isShown = false;
+      }
     },
 
     mounted() {
       toastEventBus.$on("show", this.show);
+      toastEventBus.$on("close", this.close);
     },
 
     beforeDestroy() {
       toastEventBus.$off("show", this.show);
+      toastEventBus.$off("close", this.close);
     },
 
     render(h) {
@@ -67,9 +76,9 @@ export default (Vue) => {
         this.$scopedSlots.default({
           isShown: this.isShown,
           message: this.message,
-          color: this.color,
+          color: this.color
         })
       );
-    },
+    }
   });
 };

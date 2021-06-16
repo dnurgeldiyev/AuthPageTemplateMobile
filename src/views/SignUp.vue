@@ -1,7 +1,7 @@
 <template>
   <v-container>
-    <v-row justify="center" align="center">
-      <v-col cols="12" lg="3" md="4" sm="8">
+    <v-row justify="center" align="center" style="height: 100vh">
+      <v-col cols="12" lg="3" md="6" sm="8">
         <v-row justify="center" class="pb-2" style="font-size: 1.7rem;">
           <v-col cols="auto" class="font-weight-bold">
             Sign Up
@@ -24,6 +24,7 @@
                     v-model="fullname"
                     outlined
                     rounded
+                    autofocus
                     flat
                     dense
                     :background-color="
@@ -31,6 +32,7 @@
                         ? 'rgba(255,102,131,0.38)'
                         : '#F3F3FA'
                     "
+                    tabindex="1"
                   />
                 </v-col>
                 <v-col cols="12" class="py-0">
@@ -50,6 +52,7 @@
                     :background-color="
                       emailError ? 'rgba(255,102,131,0.38)' : '#F3F3FA'
                     "
+                    tabindex="2"
                   />
                 </v-col>
                 <v-col cols="12" class="py-0">
@@ -85,6 +88,7 @@
                       passwordError ? 'rgba(255,102,131,0.38)' : '#F3F3FA'
                     "
                     @click:append="passwordShow = !passwordShow"
+                    tabindex="3"
                   />
                 </v-col>
                 <v-col cols="12" class="py-0">
@@ -112,6 +116,7 @@
                       passwordError ? 'rgba(255,102,131,0.38)' : '#F3F3FA'
                     "
                     @click:append="repeatPasswordShow = !repeatPasswordShow"
+                    tabindex="4"
                   />
                 </v-col>
                 <v-col cols="12" class="pt-0">
@@ -122,6 +127,7 @@
                     dark
                     @click="userSignUp"
                     color="#1E1A3E"
+                    tabindex="5"
                   >
                     Sign Up
                   </v-btn>

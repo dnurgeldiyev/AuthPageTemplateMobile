@@ -13,9 +13,14 @@
             rounded="pill"
             min-width="20em"
           >
-            <p class="text-center">
+            <p class="text-center  pt-3 font-weight-bold">
               Wrong email or password
             </p>
+            <template v-slot:action="{}">
+              <v-icon left @click="closeNotification">
+                mdi-close
+              </v-icon>
+            </template>
           </v-snackbar>
         </template>
       </app-toast>
@@ -25,11 +30,16 @@
 
 <script>
 export default {
-  name: "App"
+  name: "App",
+  methods: {
+    closeNotification() {
+      this.$toast.close();
+    }
+  }
 };
 </script>
 <style scoped>
-.v-snack__wrapper{
- min-width: 100px !important;
+.v-snack__wrapper {
+  min-width: 100px !important;
 }
 </style>

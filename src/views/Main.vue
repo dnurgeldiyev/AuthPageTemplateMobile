@@ -7,12 +7,12 @@
     >
       <v-col
         cols="12"
-        class="pt-10 text-h5 font-weight-bold text-center"
-        style="color: #181C43;"
+        class="text-h5 text-sm-h4 text-md-h3 font-weight-bold text-center"
+        style="color: #181C43; padding-top: 15vh;"
       >
         Hello, John Doe!
       </v-col>
-      <v-col cols="12" sm="3" class="pa-0">
+      <v-col cols="12" sm="8" class="pa-0">
         <v-img
           width="100vw"
           height="auto"
