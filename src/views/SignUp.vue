@@ -27,7 +27,9 @@
                     flat
                     dense
                     :background-color="
-                      fullname === '' && isValid ? 'rgba(255,102,131,0.38)' : '#F3F3FA'
+                      fullname === '' && isValid
+                        ? 'rgba(255,102,131,0.38)'
+                        : '#F3F3FA'
                     "
                   />
                 </v-col>
@@ -97,7 +99,9 @@
                       repeatPasswordShow ? 'mdi-eye-off' : 'mdi-eye'
                     "
                     :type="repeatPasswordShow ? 'text' : 'password'"
-                    :rules="isValid ? [rules.required, rules.repeatPassword] : []"
+                    :rules="
+                      isValid ? [rules.required, rules.repeatPassword] : []
+                    "
                     v-model="repeatPassword"
                     :disabled="password === ''"
                     outlined
@@ -116,12 +120,7 @@
                     autocapitalize="false"
                     rounded
                     dark
-                    @click="
-                      () => {
-                        this.isValid = true;
-                        this.$refs.form.validate();
-                      }
-                    "
+                    @click="userSignUp"
                     color="#1E1A3E"
                   >
                     Sign Up
@@ -136,7 +135,9 @@
             Already have an account?
           </v-col>
           <v-col cols="12" align="center">
-            <router-link :to="{name: 'SignIn'}" class="styleLink">Sign In</router-link>
+            <router-link :to="{ name: 'SignIn' }" class="styleLink"
+              >Sign In</router-link
+            >
           </v-col>
         </v-row>
       </v-col>
@@ -188,9 +189,18 @@ export default {
       }
     };
   },
-  watch: {
-    password: function() {
-      this.repeatPassword = "";
+  methods: {
+    async userSignUp() {
+      if (!this.isValid) {
+        this.isValid = true;
+        await this.$nextTick(() => {});
+      }
+
+      if (this.$refs.form.validate() === false) {
+        return;
+      }
+
+      this.$router.push({ name: "Main" });
     }
   }
 };
@@ -203,8 +213,7 @@ export default {
 .v-text-field--outlined >>> fieldset {
   border: none;
 }
-.styleLink{
+.styleLink {
   color: black;
 }
-
 </style>

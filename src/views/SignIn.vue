@@ -136,7 +136,6 @@ export default {
   },
   methods: {
     async userSignIn() {
-
       if (!this.isValid) {
         this.isValid = true;
         await this.$nextTick(() => {});
@@ -150,7 +149,7 @@ export default {
         return;
       }
 
-      // this.$router.push({});
+      this.$router.push({ name: "Main" });
     }
   }
 };
