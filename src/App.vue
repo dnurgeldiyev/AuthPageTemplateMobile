@@ -1,6 +1,6 @@
 <template>
   <v-app style="background: #FAF3F3;">
-    <v-main>
+    <v-main style="overflow: hidden">
       <router-view />
       <app-toast>
         <template v-slot="{ isShown, message, color }">

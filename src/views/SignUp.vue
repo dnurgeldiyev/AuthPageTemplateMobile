@@ -24,7 +24,6 @@
                     v-model="fullname"
                     outlined
                     rounded
-                    autofocus
                     flat
                     dense
                     :background-color="

@@ -23,7 +23,6 @@
                     :rules="isValid ? [rules.required, rules.email] : []"
                     v-model="email"
                     outlined
-                    autofocus
                     rounded
                     flat
                     dense

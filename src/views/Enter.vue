@@ -47,9 +47,10 @@
           </v-col>
           <v-col class="pa-0">
             <v-img
-              width="80vw"
+              width="100vw"
               height="auto"
               class="mx-auto"
+              style="min-height: 200px"
               src="@/assets/woman x5F 2.png"
             ></v-img>
           </v-col>
