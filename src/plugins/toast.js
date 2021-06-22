@@ -55,7 +55,6 @@ export default Vue => {
         }, duration);
       },
       close() {
-        console.log("toast close");
         this.isShown = false;
       }
     },
