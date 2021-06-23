@@ -60,9 +60,12 @@
                       Password
                     </v-col>
                     <v-col cols="auto">
-                      <v-tooltip v-model="toolShow" top>
-                        <template v-slot:activator="{}">
-                          <v-icon @click="toolShow = !toolShow" size="15">
+                      <v-tooltip top>
+                        <template v-slot:activator="{on ,attrs}">
+                          <v-icon
+                              v-bind="attrs"
+                              v-on="on"
+                              size="15">
                             mdi-help-circle
                           </v-icon>
                         </template>
@@ -168,7 +171,6 @@ export default {
 
       passwordShow: false,
       repeatPasswordShow: false,
-      toolShow: false,
 
       rules: {
         required: v => {
