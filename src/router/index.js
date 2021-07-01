@@ -24,9 +24,10 @@ const routes = [
     component: SignIn
   },
   {
-    path: "/main",
+    path: "/main/:fullname",
     name: "Main",
-    component: Main
+    component: Main,
+    props: true
   }
 ];
 

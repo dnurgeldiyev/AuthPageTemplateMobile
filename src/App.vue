@@ -14,7 +14,7 @@
             min-width="20em"
           >
             <p class="text-center  pt-3 font-weight-bold">
-              Wrong email or password
+              {{ message }}
             </p>
             <template v-slot:action="{}">
               <v-icon left @click="closeNotification">

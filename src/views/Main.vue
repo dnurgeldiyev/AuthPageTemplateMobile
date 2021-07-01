@@ -10,7 +10,7 @@
         class="text-h5 text-sm-h4 text-md-h3 font-weight-bold text-center"
         style="color: #181C43; padding-top: 15vh;"
       >
-        Hello, John Doe!
+        Hello, {{ this.fullname }}
       </v-col>
       <v-col cols="12" sm="8" class="pa-0">
         <v-img
@@ -26,6 +26,7 @@
 
 <script>
 export default {
+  props: ["fullname"],
   name: "Main"
 };
 </script>

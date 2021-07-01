@@ -101,6 +101,8 @@
 </template>
 
 <script>
+import { isAuthorized } from "@/service/authData";
+
 export default {
   name: "SignIn",
   data() {
@@ -144,7 +146,11 @@ export default {
         await this.$nextTick(() => {});
       }
 
-      if (this.$refs.form.validate() === false) {
+      let authorized = isAuthorized(this.email, this.password);
+
+      if (this.$refs.form.validate() === false || !authorized) {
+        this.passwordError = true;
+        this.emailError = true;
         this.$toast.show({
           message: "Wrong email or password",
           status: "error"
@@ -152,7 +158,10 @@ export default {
         return;
       }
 
-      this.$router.push({ name: "Main" });
+      this.$router.push({
+        name: "Main",
+        params: { fullname: authorized }
+      });
     }
   }
 };

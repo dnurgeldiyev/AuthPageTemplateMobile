@@ -61,11 +61,8 @@
                     </v-col>
                     <v-col cols="auto">
                       <v-tooltip top>
-                        <template v-slot:activator="{on ,attrs}">
-                          <v-icon
-                              v-bind="attrs"
-                              v-on="on"
-                              size="15">
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-icon v-bind="attrs" v-on="on" size="15">
                             mdi-help-circle
                           </v-icon>
                         </template>
@@ -154,6 +151,8 @@
 </template>
 
 <script>
+import { authData } from "@/service/authData";
+
 export default {
   name: "SignUp",
   data() {
@@ -202,12 +201,22 @@ export default {
         this.isValid = true;
         await this.$nextTick(() => {});
       }
-
       if (this.$refs.form.validate() === false) {
         return;
       }
 
-      this.$router.push({ name: "Main" });
+      let authResult = authData(this.fullname, this.email, this.password);
+
+      if (!authResult) {
+        this.emailError = true;
+        this.$toast.show({
+          message: "Email already exists",
+          status: "error"
+        });
+        return;
+      }
+
+      this.$router.push({ name: "Main", params: { fullname: this.fullname } });
     }
   }
 };
