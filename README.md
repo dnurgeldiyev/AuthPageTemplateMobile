@@ -1,4 +1,4 @@
-# test-task-front
+# AuthPageTemplateMobile
 
 ## Project setup
 ```
