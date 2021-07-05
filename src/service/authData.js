@@ -26,7 +26,7 @@ export const authData = (fullName, email, password) => {
 export const isAuthorized = (email, password) => {
   let dict = JSON.parse(localStorage.getItem("authData"));
 
-  if (email in dict) {
+  if (dict !== null && email in dict) {
     return dict[email]["password"] === password && dict[email]["fullname"];
   }
 
