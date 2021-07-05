@@ -1,5 +1,5 @@
-export const required = (v) => {
-  if (v.length === 0)  return ["This field is required!!!", true];
+export const required = v => {
+  if (v.length === 0) return ["This field is required!!!", true];
   return [true, false];
 };
 export const password = v => {
@@ -9,11 +9,10 @@ export const password = v => {
   return [true, false];
 };
 export const passwordRepeat = (v, pswd) => {
-
-  if (pswd !== v)  return ["The password does not match!!!", true];
+  if (pswd !== v) return ["The password does not match!!!", true];
   return [true, false];
 };
 export const email = v => {
-  if (v.search("^.{3,}@.{4,}\\..{2,}$") < 0) return ["Enter valid email", true]
+  if (v.search("^.{3,}@.{4,}\\..{2,}$") < 0) return ["Enter valid email", true];
   return [true, false];
 };

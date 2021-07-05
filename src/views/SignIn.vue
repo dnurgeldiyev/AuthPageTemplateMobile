@@ -71,7 +71,7 @@
 import { isAuthorized } from "@/service/authData";
 import TextField from "@/components/TextField";
 import PasswordField from "@/components/PasswordField";
-import {required, password, email} from "@/service/rulesList";
+import { required, password, email } from "@/service/rulesList";
 
 export default {
   name: "SignIn",
@@ -86,7 +86,7 @@ export default {
       rules: {
         required,
         password,
-        email,
+        email
       }
     };
   },
@@ -117,9 +117,6 @@ export default {
 </script>
 
 <style scoped>
-.form-titel {
-  font-size: 0.9rem;
-}
 .v-text-field--outlined >>> fieldset {
   border: none;
 }

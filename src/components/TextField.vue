@@ -34,13 +34,13 @@ export default {
     rules: {
       type: Array,
       required: true
-    },
+    }
   },
   name: "TextField",
   data() {
     return {
       value: "",
-      error: false,
+      error: false
     };
   },
   computed: {
@@ -57,7 +57,7 @@ export default {
           return res;
         }
       }
-      this.$emit("getDataFromChild",this.value);
+      this.$emit("getDataFromChild", this.value);
       return true;
     }
   }
