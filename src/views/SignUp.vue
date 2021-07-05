@@ -8,116 +8,56 @@
           </v-col>
         </v-row>
 
-        <v-card elevation="0" class="rounded-xl">
+        <v-card elevation="0" class="rounded-xl py-1">
           <v-form ref="form" lazy-validation>
             <v-container>
               <v-row>
-                <v-col cols="12" class="pb-0">
-                  <v-row justify="space-between" class="px-4 form-titel">
-                    <v-col cols="auto">
-                      Fullname
-                    </v-col>
-                  </v-row>
+                <TextField
+                  title="Fullname"
+                  :Valid="isValid"
+                  :rules="[rules.required]"
+                  @getDataFromChild="
+                    v => {
+                      this.fullname = v;
+                    }
+                  "
+                />
+                <TextField
+                  title="Email"
+                  :Valid="isValid"
+                  :rules="[rules.required, rules.email]"
+                  @getDataFromChild="
+                    v => {
+                      this.email = v;
+                    }
+                  "
+                />
+                <PasswordField
+                  title="Password"
+                  :Valid="isValid"
+                  :rules="[rules.required, rules.password]"
+                  :password="null"
+                  :disabled="false"
+                  @getDataFromChild="
+                    v => {
+                      this.password = v;
+                    }
+                  "
+                />
 
-                  <v-text-field
-                    :rules="isValid ? [rules.required] : []"
-                    v-model="fullname"
-                    outlined
-                    rounded
-                    flat
-                    dense
-                    :background-color="
-                      fullname === '' && isValid
-                        ? 'rgba(255,102,131,0.38)'
-                        : '#F3F3FA'
-                    "
-                    tabindex="1"
-                  />
-                </v-col>
-                <v-col cols="12" class="py-0">
-                  <v-row justify="space-between" class="px-4 form-titel">
-                    <v-col cols="auto">
-                      Email
-                    </v-col>
-                  </v-row>
+                <PasswordField
+                  title="Repeat Password"
+                  :Valid="isValid"
+                  :rules="[rules.passwordRepeat]"
+                  :password="password"
+                  :disabled="true"
+                  @getDataFromChild="
+                    v => {
+                      this.passwordRepeat = v;
+                    }
+                  "
+                />
 
-                  <v-text-field
-                    :rules="isValid ? [rules.required, rules.email] : []"
-                    v-model="email"
-                    outlined
-                    rounded
-                    flat
-                    dense
-                    :background-color="
-                      emailError ? 'rgba(255,102,131,0.38)' : '#F3F3FA'
-                    "
-                    tabindex="2"
-                  />
-                </v-col>
-                <v-col cols="12" class="py-0">
-                  <v-row justify="space-between" class="px-4 pb-1 form-titel">
-                    <v-col cols="auto">
-                      Password
-                    </v-col>
-                    <v-col cols="auto">
-                      <v-tooltip top>
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-icon v-bind="attrs" v-on="on" size="15">
-                            mdi-help-circle
-                          </v-icon>
-                        </template>
-                        <span style="width: 1rem">
-                          Password must contain 8+ symbols, 1 special and 2
-                          capital letters
-                        </span>
-                      </v-tooltip>
-                    </v-col>
-                  </v-row>
-
-                  <v-text-field
-                    :append-icon="passwordShow ? 'mdi-eye-off' : 'mdi-eye'"
-                    :type="passwordShow ? 'text' : 'password'"
-                    :rules="isValid ? [rules.required, rules.password] : []"
-                    v-model="password"
-                    outlined
-                    rounded
-                    flat
-                    dense
-                    :background-color="
-                      passwordError ? 'rgba(255,102,131,0.38)' : '#F3F3FA'
-                    "
-                    @click:append="passwordShow = !passwordShow"
-                    tabindex="3"
-                  />
-                </v-col>
-                <v-col cols="12" class="py-0">
-                  <v-row justify="space-between" class="px-4 form-titel">
-                    <v-col cols="auto">
-                      Repeat Password
-                    </v-col>
-                  </v-row>
-
-                  <v-text-field
-                    :append-icon="
-                      repeatPasswordShow ? 'mdi-eye-off' : 'mdi-eye'
-                    "
-                    :type="repeatPasswordShow ? 'text' : 'password'"
-                    :rules="
-                      isValid ? [rules.required, rules.repeatPassword] : []
-                    "
-                    v-model="repeatPassword"
-                    :disabled="password === ''"
-                    outlined
-                    rounded
-                    flat
-                    dense
-                    :background-color="
-                      passwordError ? 'rgba(255,102,131,0.38)' : '#F3F3FA'
-                    "
-                    @click:append="repeatPasswordShow = !repeatPasswordShow"
-                    tabindex="4"
-                  />
-                </v-col>
                 <v-col cols="12" class="pt-0">
                   <v-btn
                     width="100%"
@@ -152,46 +92,27 @@
 
 <script>
 import { authData } from "@/service/authData";
+import { required, email, password, passwordRepeat } from "@/service/rulesList";
+import TextField from "@/components/TextField";
+import PasswordField from "@/components/PasswordField";
 
 export default {
   name: "SignUp",
+  components: { PasswordField, TextField },
   data() {
     return {
-      fullname: "",
-      password: "",
-      repeatPassword: "",
-      email: "",
+      fullname: null,
+      password: null,
+      passwordRepeat: null,
+      email: null,
 
       isValid: false,
 
-      fullnameError: false,
-      passwordError: false,
-      emailError: false,
-
-      passwordShow: false,
-      repeatPasswordShow: false,
-
       rules: {
-        required: v => {
-          return !!v || "This field is required!!!";
-        },
-        password: v => {
-          this.passwordError = true;
-          if (v.search("^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*-+`]).{8,}$") < 0)
-            return "The password does not match the rules";
-
-          this.passwordError = false;
-          return true;
-        },
-        repeatPassword: v => {
-          return this.password === v || "The password does not match";
-        },
-        email: v => {
-          this.emailError = true;
-          if (v.search("^.{3,}@.{4,}\\..{2,}$") < 0) return "Enter valid email";
-          this.emailError = false;
-          return true;
-        }
+        required,
+        password,
+        passwordRepeat,
+        email
       }
     };
   },
@@ -205,10 +126,11 @@ export default {
         return;
       }
 
+      console.log(this.fullname, this.email, this.password);
+
       let authResult = authData(this.fullname, this.email, this.password);
 
       if (!authResult) {
-        this.emailError = true;
         this.$toast.show({
           message: "Email already exists",
           status: "error"
@@ -223,12 +145,6 @@ export default {
 </script>
 
 <style scoped>
-.form-titel {
-  font-size: 0.9rem;
-}
-.v-text-field--outlined >>> fieldset {
-  border: none;
-}
 .styleLink {
   color: black;
 }

@@ -16,6 +16,7 @@
         <v-img
           width="100vw"
           height="auto"
+          style="min-height: 200px"
           class="mx-auto"
           src="@/assets/woman.png"
         ></v-img>

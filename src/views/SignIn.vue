@@ -8,66 +8,33 @@
           </v-col>
         </v-row>
 
-        <v-card elevation="0" class="rounded-xl">
+        <v-card elevation="0" class="rounded-xl py-1">
           <v-form ref="form" lazy-validation>
             <v-container>
               <v-row>
-                <v-col cols="12" class="py-0 mt-2">
-                  <v-row justify="space-between" class="px-4 form-titel">
-                    <v-col cols="auto">
-                      Email
-                    </v-col>
-                  </v-row>
+                <TextField
+                  title="Email"
+                  :Valid="isValid"
+                  :rules="[rules.required, rules.email]"
+                  @getDataFromChild="
+                    v => {
+                      this.email = v;
+                    }
+                  "
+                />
+                <PasswordField
+                  title="Password"
+                  :Valid="isValid"
+                  :rules="[rules.required, rules.password]"
+                  :password="null"
+                  :disabled="false"
+                  @getDataFromChild="
+                    v => {
+                      this.password = v;
+                    }
+                  "
+                />
 
-                  <v-text-field
-                    :rules="isValid ? [rules.required, rules.email] : []"
-                    v-model="email"
-                    outlined
-                    rounded
-                    flat
-                    dense
-                    :background-color="
-                      emailError ? 'rgba(255,102,131,0.38)' : '#F3F3FA'
-                    "
-                    tabindex="1"
-                  />
-                </v-col>
-                <v-col cols="12" class="py-0">
-                  <v-row justify="space-between" class="px-4 pb-1 form-titel">
-                    <v-col cols="auto">
-                      Password
-                    </v-col>
-                    <v-col cols="auto">
-                      <v-tooltip v-model="toolShow" top>
-                        <template v-slot:activator="{}">
-                          <v-icon @click="toolShow = !toolShow" size="15">
-                            mdi-help-circle
-                          </v-icon>
-                        </template>
-                        <span style="width: 1rem">
-                          Password must contain 8+ symbols, 1 special and 2
-                          capital letters
-                        </span>
-                      </v-tooltip>
-                    </v-col>
-                  </v-row>
-
-                  <v-text-field
-                    :append-icon="passwordShow ? 'mdi-eye-off' : 'mdi-eye'"
-                    :type="passwordShow ? 'text' : 'password'"
-                    :rules="isValid ? [rules.required, rules.password] : []"
-                    v-model="password"
-                    outlined
-                    rounded
-                    flat
-                    dense
-                    :background-color="
-                      passwordError ? 'rgba(255,102,131,0.38)' : '#F3F3FA'
-                    "
-                    @click:append="passwordShow = !passwordShow"
-                    tabindex="2"
-                  />
-                </v-col>
                 <v-col cols="12" class="pt-0">
                   <v-btn
                     width="100%"
@@ -102,9 +69,13 @@
 
 <script>
 import { isAuthorized } from "@/service/authData";
+import TextField from "@/components/TextField";
+import PasswordField from "@/components/PasswordField";
+import {required, password, email} from "@/service/rulesList";
 
 export default {
   name: "SignIn",
+  components: { TextField, PasswordField },
   data() {
     return {
       password: "",
@@ -112,30 +83,10 @@ export default {
 
       isValid: false,
 
-      passwordError: false,
-      emailError: false,
-
-      passwordShow: false,
-      toolShow: false,
-
       rules: {
-        required: v => {
-          return !!v || "This field is required!!!";
-        },
-        password: v => {
-          this.passwordError = true;
-          if (v.search("^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*-+`]).{8,}$") < 0)
-            return "The password does not match the rules";
-
-          this.passwordError = false;
-          return true;
-        },
-        email: v => {
-          this.emailError = true;
-          if (v.search("^.{3,}@.{4,}\\..{2,}$") < 0) return "Enter valid email";
-          this.emailError = false;
-          return true;
-        }
+        required,
+        password,
+        email,
       }
     };
   },
@@ -149,8 +100,6 @@ export default {
       let authorized = isAuthorized(this.email, this.password);
 
       if (this.$refs.form.validate() === false || !authorized) {
-        this.passwordError = true;
-        this.emailError = true;
         this.$toast.show({
           message: "Wrong email or password",
           status: "error"
