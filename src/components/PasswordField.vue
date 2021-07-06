@@ -83,7 +83,7 @@ export default {
           [res, this.error] = this.rules[i](this.value, this.isPassword);
         }
         if (this.error) {
-          this.$emit("getDataFromChild", null);
+          this.$emit("getDataFromChild", this.value);
           return res;
         }
       }
