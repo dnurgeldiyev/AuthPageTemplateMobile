@@ -9,7 +9,7 @@ export const password = v => {
   return [true, false];
 };
 export const passwordRepeat = (v, pswd) => {
-  if (pswd !== v) return ["The password does not match!!!", true];
+  if (pswd !== v || pswd === null || pswd.length < 8) return ["The password does not match!!!", true];
   return [true, false];
 };
 export const email = v => {
