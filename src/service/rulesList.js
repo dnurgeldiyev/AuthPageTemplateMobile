@@ -9,8 +9,10 @@ export const password = v => {
   return [true, false];
 };
 export const passwordRepeat = (v, pswd) => {
-  if (pswd !== v || pswd === null || pswd.length < 8) return ["The password does not match!!!", true];
-  return [true, false];
+  const req = required(v);
+  if(req[1]) return req;
+  if (pswd !== v) return ["The password does not match!!!", true];
+  return password(pswd);
 };
 export const email = v => {
   if (v.search("^.{3,}@.{4,}\\..{2,}$") < 0) return ["Enter valid email", true];
